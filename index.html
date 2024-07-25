@@ -5,16 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPTV Premium</title>
     <style>
+        @keyframes flash {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        @keyframes neon {
+            0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0099, 0 0 30px #ff0099, 0 0 40px #ff0099, 0 0 50px #ff0099, 0 0 60px #ff0099, 0 0 70px #ff0099; }
+            100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff; }
+        }
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: black;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             color: white;
             text-align: center;
             overflow: hidden;
+        }
+        .flash {
+            font-size: 3em;
+            color: #e50914;
+            animation: flash 2s infinite;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
         }
         .content {
             background-color: rgba(0, 0, 0, 0.8);
@@ -28,6 +47,7 @@
             margin-top: 50px;
             font-size: 3em;
             color: #e50914;
+            animation: neon 1.5s infinite alternate;
         }
         h2 {
             margin: 20px 0;
@@ -123,6 +143,7 @@
 </head>
 <body>
     <canvas id="canvas"></canvas>
+    <div class="flash">THUNDER STREAMING TV</div>
     <div class="content">
         <h1>IPTV Premium</h1>
         <h2>Disfruta de la mejor televisión online</h2>
@@ -200,13 +221,14 @@
                     this.speed = Math.random() * 5 + 2;
                     this.width = Math.random() * 2 + 1;
                     this.opacity = 1;
+                    this.color = hsl(${Math.random() * 360}, 100%, 50%);
                 }
 
                 draw() {
                     ctx.beginPath();
                     ctx.moveTo(this.x, this.y);
                     ctx.lineTo(this.x + Math.sin(this.speed) * this.length, this.y + Math.cos(this.speed) * this.length);
-                    ctx.strokeStyle = rgba(255, 255, 255, ${this.opacity});
+                    ctx.strokeStyle = rgba(${this.color}, ${this.opacity});
                     ctx.lineWidth = this.width;
                     ctx.stroke();
                 }
@@ -223,7 +245,7 @@
             }
 
             function initRays() {
-                for (let i = 0; i < 30; i++) {
+                for (let i = 0; i < 20; i++) {
                     rayos.push(new Rayo());
                 }
             }
@@ -244,14 +266,6 @@
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
             });
-
-            // Imágenes de fondo aleatorias
-            const backgrounds = [
-                'https://images.unsplash.com/photo-1512295767273-ac55e7b0506d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNjY1OXwwfDF8c2VhcmNofDJ8fGJhY2tncm91bmR8fDB8fHx8MTY5MDE4MDgwOHw&ixlib=rb-4.0.3&q=80&w=1080',
-                'https://images.unsplash.com/photo-1501696460041-2e9286df3049?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNjY1OXwwfDF8c2VhcmNofDh8fGJhY2tncm91bmR8fDB8fHx8MTY5MDE4MDgwOHw&ixlib=rb-4.0.3&q=80&w=1080'
-            ];
-            const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-            document.body.style.backgroundImage = url(${randomBackground});
         });
     </script>
 </body>
