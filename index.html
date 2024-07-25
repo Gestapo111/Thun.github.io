@@ -14,85 +14,115 @@
             text-align: center;
             background: url('https://i.postimg.cc/RFwzJnHC/Picsart-24-07-21-07-11-55-775.jpg') no-repeat center center fixed;
             background-size: cover;
+            position: relative;
+            min-height: 100vh;
         }
+
         .container {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
             margin: 50px auto;
-            max-width: 800px;
-            border-radius: 10px;
-            text-align: left;
-            color: #fff;
+            max-width: 900px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
         }
+
         .title {
-            font-size: 2.5em;
+            font-size: 3em;
             color: #e50914;
             margin-top: 0;
             animation: neon 1.5s infinite alternate;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
+
         @keyframes neon {
             0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff0099, 0 0 30px #ff0099, 0 0 40px #ff0099, 0 0 50px #ff0099, 0 0 60px #ff0099, 0 0 70px #ff0099; }
             100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff, 0 0 50px #ff00ff, 0 0 60px #ff00ff, 0 0 70px #ff00ff; }
         }
+
         .recommendation {
             font-size: 1.5em;
             margin: 20px 0;
-            background-color: #e50914;
+            background-color: #ff6f61;
             color: white;
-            padding: 15px;
-            border-radius: 5px;
+            padding: 20px;
+            border-radius: 10px;
             font-weight: bold;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
         }
+
         .button {
             display: inline-block;
-            padding: 10px 20px;
-            margin: 10px 5px;
+            padding: 12px 25px;
+            margin: 15px 10px;
             background-color: #e50914;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.3s, transform 0.3s;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
         }
+
         .button:hover {
             background-color: #b20710;
             transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
         }
+
         .gallery {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: 15px;
             margin: 20px 0;
         }
+
         .gallery img {
             width: calc(50% - 20px);
-            max-width: 400px;
+            max-width: 450px;
             height: auto;
-            border-radius: 10px;
-            transition: transform 0.3s;
+            border-radius: 15px;
+            transition: transform 0.3s, opacity 0.3s;
         }
+
         .gallery img:hover {
             transform: scale(1.05);
+            opacity: 0.8;
         }
+
         @media (max-width: 768px) {
             .gallery img {
                 width: calc(100% - 20px);
             }
             .container {
                 margin: 20px;
+                padding: 20px;
             }
             .title {
-                font-size: 2em;
+                font-size: 2.5em;
             }
             .recommendation {
                 font-size: 1.2em;
             }
         }
+
+        .canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+    <div class="canvas-container">
+        <canvas id="canvas"></canvas>
+    </div>
     <div class="container">
         <div class="title">THUNDER STREAMING TV</div>
         <div class="recommendation">
@@ -109,5 +139,73 @@
             <img src="https://live.staticflickr.com/65535/53877615792_9d9483de5f_m.jpg" alt="Galería 2">
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const rayos = [];
+
+            class Rayo {
+                constructor() {
+                    this.reset();
+                }
+
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.length = Math.random() * 100 + 50;
+                    this.speed = Math.random() * 5 + 2;
+                    this.width = Math.random() * 2 + 1;
+                    this.opacity = 1;
+                    this.color = ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)};
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.moveTo(this.x, this.y);
+                    ctx.lineTo(this.x + Math.sin(this.speed) * this.length, this.y + Math.cos(this.speed) * this.length);
+                    ctx.strokeStyle = rgba(${this.color}, ${this.opacity});
+                    ctx.lineWidth = this.width;
+                    ctx.stroke();
+                }
+
+                update() {
+                    this.x += Math.sin(this.speed);
+                    this.y += Math.cos(this.speed);
+                    this.length -= 1;
+                    this.opacity -= 0.02;
+                    if (this.length <= 0 || this.opacity <= 0) {
+                        this.reset();
+                    }
+                }
+            }
+
+            function initRays() {
+                for (let i = 0; i < 50; i++) {
+                    rayos.push(new Rayo());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                rayos.forEach(rayo => {
+                    rayo.update();
+                    rayo.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+
+            initRays();
+            animate();
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        });
+    </script>
 </body>
 </html>
