@@ -95,6 +95,30 @@
             position: relative;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
         }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .gallery img {
+            margin: 10px;
+            width: calc(50% - 20px);
+            max-width: 300px;
+            height: auto;
+            transition: transform 0.3s;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        @media (max-width: 768px) {
+            .gallery img {
+                width: calc(100% - 20px);
+            }
+            .prices table {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -144,9 +168,15 @@
         </div>
 
         <a class="button" href="https://www.paypal.com/paypalme/@albsanchz">Comprar Ahora</a>
+        <a class="button" href="https://zonaduples.com/Thunder/THUNDER_3.8.apk">Descargar APK</a>
 
         <div class="recommendation">
             ¡No pierdas la oportunidad de disfrutar de la mejor experiencia de entretenimiento con IPTV Premium! Accede a una amplia variedad de canales, series y películas en la mejor calidad, todo desde la comodidad de tu hogar.
+        </div>
+
+        <div class="gallery">
+            <img src="https://live.staticflickr.com/65535/53878859174_d49033d2cc_m.jpg" alt="Galería 1">
+            <img src="https://live.staticflickr.com/65535/53877615792_9d9483de5f_m.jpg" alt="Galería 2">
         </div>
     </div>
     <script>
@@ -217,11 +247,8 @@
 
             // Imágenes de fondo aleatorias
             const backgrounds = [
-                'https://images.unsplash.com/photo-1512295767273-ac55e7b0506d',
-                'https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0',
-                'https://images.unsplash.com/photo-1521295121783-8a321d551ad2',
-                'https://images.unsplash.com/photo-1510511459019-5dda7724fd87',
-                'https://images.unsplash.com/photo-1501696460041-2e9286df3049'
+                'https://images.unsplash.com/photo-1512295767273-ac55e7b0506d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNjY1OXwwfDF8c2VhcmNofDJ8fGJhY2tncm91bmR8fDB8fHx8MTY5MDE4MDgwOHw&ixlib=rb-4.0.3&q=80&w=1080',
+                'https://images.unsplash.com/photo-1501696460041-2e9286df3049?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wyNjY1OXwwfDF8c2VhcmNofDh8fGJhY2tncm91bmR8fDB8fHx8MTY5MDE4MDgwOHw&ixlib=rb-4.0.3&q=80&w=1080'
             ];
             const randomBackground = backgrounds[Math.floor(Math.random() * backgrounds.length)];
             document.body.style.backgroundImage = url(${randomBackground});
