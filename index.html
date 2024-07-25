@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Figuras Neón</title>
+    <title>THUNDER STREAMING TV</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
         body {
             margin: 0;
             padding: 0;
             overflow: hidden;
             background-color: black;
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: 'Orbitron', sans-serif;
             text-align: center;
         }
 
@@ -33,22 +35,62 @@
         }
 
         h1 {
-            font-size: 3em;
+            font-size: 4em;
             margin: 0;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.8), 0 0 30px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.8);
+            color: #00ffff; /* Neon Blue */
+        }
+
+        h1 span {
+            color: #ff0000; /* Neon Red */
         }
 
         p {
-            font-size: 1.2em;
+            font-size: 1.5em;
             margin-top: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #008CBA;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            box-shadow: 0 0 10px rgba(0, 140, 186, 0.8), 0 0 20px rgba(0, 140, 186, 0.8), 0 0 30px rgba(0, 140, 186, 0.8);
+        }
+
+        .button:hover {
+            background-color: #005f73;
+            transform: scale(1.1);
+        }
+
+        .gif-container {
+            margin: 20px auto;
+            max-width: 80%;
+        }
+
+        .gif-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
     <canvas id="canvas"></canvas>
     <div class="content">
-        <h1>Figuras Neón en Acción</h1>
-        <p>Disfruta de una visualización de figuras poligonales en movimiento aleatorio sobre un fondo negro.</p>
+        <h1><span>THUNDER</span> STREAMING TV</h1>
+        <p>Descubre la mejor experiencia de entretenimiento en línea con Thunder Streaming TV. Disfruta de una amplia variedad de canales, series y películas en alta calidad desde la comodidad de tu hogar. ¡Únete a la revolución del streaming!</p>
+        <div class="gif-container">
+            <img src="https://i.postimg.cc/rz3xWZD7/19958b6d.gif" alt="THUNDER STREAMING TV">
+        </div>
+        <a class="button" href="#">Solicitar Demostración</a>
+        <a class="button" href="https://wa.me/+16616754876">Contacto WhatsApp</a>
+        <a class="button" href="https://zonaduples.com/Thunder/THUNDER_3.8.apk">Descargar APK</a>
+        <a class="button" href="https://www.paypal.com/paypalme/@albsanchz">Pagar con PayPal</a>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -76,9 +118,9 @@
                     this.sides = Math.floor(Math.random() * 6) + 3; // 3 to 8 sides
                     this.radius = Math.random() * 30 + 10;
                     this.angle = Math.random() * 2 * Math.PI;
-                    this.rotationSpeed = Math.random() * 0.01 + 0.005; // Reduced rotation speed
+                    this.rotationSpeed = Math.random() * 0.01 + 0.001; // Reduced rotation speed
                     this.opacity = Math.random() * 0.5 + 0.5; // Ensure opacity is between 0.5 and 1
-                    this.color = hsl(${Math.random() * 360}, 100%, 50%); // Bright neon color
+                    this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Bright neon color
                 }
 
                 draw() {
@@ -94,7 +136,7 @@
                         }
                     }
                     ctx.closePath();
-                    ctx.strokeStyle = hsla(${Math.random() * 360}, 100%, 50%, ${this.opacity}); // Apply neon color with opacity
+                    ctx.strokeStyle = `hsla(${Math.random() * 360}, 100%, 50%, ${this.opacity})`; // Apply neon color with opacity
                     ctx.lineWidth = 2;
                     ctx.stroke();
                 }
