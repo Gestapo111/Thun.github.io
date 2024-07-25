@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rayos Neón</title>
+    <title>Figuras Neón</title>
     <style>
         body {
             margin: 0;
@@ -47,8 +47,8 @@
 <body>
     <canvas id="canvas"></canvas>
     <div class="content">
-        <h1>Rayos Neón en Acción</h1>
-        <p>Disfruta de una visualización de rayos neón en movimiento aleatorio sobre un fondo negro.</p>
+        <h1>Figuras Neón en Acción</h1>
+        <p>Disfruta de una visualización de figuras poligonales en movimiento aleatorio sobre un fondo negro.</p>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -57,9 +57,9 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
 
-            const rayos = [];
+            const figuras = [];
 
-            class Rayo {
+            class Figura {
                 constructor() {
                     this.reset();
                 }
@@ -67,53 +67,57 @@
                 reset() {
                     this.x = Math.random() * canvas.width;
                     this.y = Math.random() * canvas.height;
-                    this.length = Math.random() * 100 + 50;
+                    this.sides = Math.floor(Math.random() * 6) + 3; // 3 to 8 sides
+                    this.radius = Math.random() * 20 + 10;
                     this.angle = Math.random() * 2 * Math.PI;
-                    this.speed = Math.random() * 2 + 1;
-                    this.width = Math.random() * 3 + 1;
-                    this.opacity = 1;
+                    this.rotationSpeed = Math.random() * 0.05 + 0.01;
                     this.color = hsl(${Math.random() * 360}, 100%, 50%);
+                    this.opacity = 1;
                 }
 
                 draw() {
                     ctx.beginPath();
-                    ctx.moveTo(this.x, this.y);
-                    ctx.lineTo(
-                        this.x + Math.cos(this.angle) * this.length,
-                        this.y + Math.sin(this.angle) * this.length
-                    );
+                    for (let i = 0; i < this.sides; i++) {
+                        const angle = this.angle + (i * 2 * Math.PI) / this.sides;
+                        const x = this.x + Math.cos(angle) * this.radius;
+                        const y = this.y + Math.sin(angle) * this.radius;
+                        if (i === 0) {
+                            ctx.moveTo(x, y);
+                        } else {
+                            ctx.lineTo(x, y);
+                        }
+                    }
+                    ctx.closePath();
                     ctx.strokeStyle = rgba(${this.color}, ${this.opacity});
-                    ctx.lineWidth = this.width;
+                    ctx.lineWidth = 2;
                     ctx.stroke();
                 }
 
                 update() {
-                    this.x += Math.cos(this.angle) * this.speed;
-                    this.y += Math.sin(this.angle) * this.speed;
-                    this.length -= 0.5;
-                    this.opacity -= 0.02;
-                    if (this.length <= 0 || this.opacity <= 0) {
+                    this.angle += this.rotationSpeed;
+                    this.opacity -= 0.01;
+                    if (this.opacity <= 0) {
                         this.reset();
                     }
                 }
             }
 
-            function initRays() {
-                for (let i = 0; i < 100; i++) {
-                    rayos.push(new Rayo());
+            function initFiguras() {
+                for (let i = 0; i < 50; i++) {
+                    figuras.push(new Figura());
                 }
             }
 
             function animate() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                rayos.forEach(rayo => {
-                    rayo.update();
-                    rayo.draw();
+                figuras.forEach(figura => {
+                    figura.update();
+                    figura.draw();
                 });
                 requestAnimationFrame(animate);
             }
 
-            initRays();
+            initFiguras();
             animate();
 
             window.addEventListener('resize', () => {
