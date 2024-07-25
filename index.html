@@ -68,11 +68,11 @@
                     this.x = Math.random() * canvas.width;
                     this.y = Math.random() * canvas.height;
                     this.sides = Math.floor(Math.random() * 6) + 3; // 3 to 8 sides
-                    this.radius = Math.random() * 20 + 10;
+                    this.radius = Math.random() * 30 + 10;
                     this.angle = Math.random() * 2 * Math.PI;
-                    this.rotationSpeed = Math.random() * 0.05 + 0.01;
-                    this.opacity = Math.random();
-                    this.color = hsl(${Math.random() * 360}, 100%, 50%);
+                    this.rotationSpeed = Math.random() * 0.01 + 0.005; // Reduced rotation speed
+                    this.opacity = Math.random() * 0.5 + 0.5; // Ensure opacity is between 0.5 and 1
+                    this.color = hsl(${Math.random() * 360}, 100%, 50%); // Bright neon color
                 }
 
                 draw() {
@@ -88,7 +88,7 @@
                         }
                     }
                     ctx.closePath();
-                    ctx.strokeStyle = rgba(${this.color}, ${this.opacity});
+                    ctx.strokeStyle = hsla(${Math.random() * 360}, 100%, 50%, ${this.opacity}); // Apply neon color with opacity
                     ctx.lineWidth = 2;
                     ctx.stroke();
                 }
