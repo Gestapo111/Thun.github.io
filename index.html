@@ -10,20 +10,16 @@
         body {
             margin: 0;
             padding: 0;
-            overflow: hidden;
+            overflow-x: hidden;
             background-color: black;
             color: white;
             font-family: 'Orbitron', sans-serif;
             text-align: center;
+            position: relative;
         }
 
         canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
+            display: none; /* Hide canvas since we're not using it */
         }
 
         .content {
@@ -93,10 +89,69 @@
             height: auto;
             border-radius: 10px;
         }
+
+        .prices {
+            margin: 20px auto;
+            width: 80%;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .prices table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .prices th, .prices td {
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .prices th {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .prices td {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .paypal-button {
+            display: inline-block;
+            margin-left: 10px;
+            width: 100px;
+        }
+
+        .paypal-button img {
+            width: 100%;
+            height: auto;
+        }
+
+        .demo-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #008CBA;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        .demo-button img {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .demo-button:hover {
+            background-color: #005f6b;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+        }
     </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
     <div class="content">
         <h1><span>THUNDER</span> STREAMING TV</h1>
         <p>Descubre la mejor experiencia de entretenimiento en línea con Thunder Streaming TV. Disfruta de una amplia variedad de canales, series y películas en alta calidad desde la comodidad de tu hogar. ¡Únete a la revolución del streaming!</p>
@@ -117,83 +172,40 @@
                 Pagar con PayPal
             </a>
         </div>
+        <div class="prices">
+            <h2>Precios</h2>
+            <table>
+                <tr>
+                    <th>Duración</th>
+                    <th>Precio</th>
+                    <th>Comprar</th>
+                </tr>
+                <tr>
+                    <td>1 mes</td>
+                    <td>$10</td>
+                    <td><a class="paypal-button" href="https://www.paypal.com/paypalme/@albsanchz?amount=10"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"></a></td>
+                </tr>
+                <tr>
+                    <td>3 meses</td>
+                    <td>$25</td>
+                    <td><a class="paypal-button" href="https://www.paypal.com/paypalme/@albsanchz?amount=25"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"></a></td>
+                </tr>
+                <tr>
+                    <td>6 meses</td>
+                    <td>$45</td>
+                    <td><a class="paypal-button" href="https://www.paypal.com/paypalme/@albsanchz?amount=45"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"></a></td>
+                </tr>
+                <tr>
+                    <td>1 año</td>
+                    <td>$80</td>
+                    <td><a class="paypal-button" href="https://www.paypal.com/paypalme/@albsanchz?amount=80"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"></a></td>
+                </tr>
+            </table>
+            <a class="demo-button" href="https://wa.me/+16616754876">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+                Solicitar Demostración
+            </a>
+        </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const canvas = document.getElementById('canvas');
-            const ctx = canvas.getContext('2d');
-
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-
-            resizeCanvas();
-            window.addEventListener('resize', resizeCanvas);
-
-            const figuras = [];
-
-            class Figura {
-                constructor() {
-                    this.reset();
-                }
-
-                reset() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.sides = Math.floor(Math.random() * 6) + 3; // 3 to 8 sides
-                    this.radius = Math.random() * 30 + 10;
-                    this.angle = Math.random() * 2 * Math.PI;
-                    this.rotationSpeed = Math.random() * 0.01 + 0.001; // Reduced rotation speed
-                    this.opacity = Math.random() * 0.5 + 0.5; // Ensure opacity is between 0.5 and 1
-                    this.color = `hsl(${Math.random() * 360}, 100%, 50%)`; // Bright neon color
-                }
-
-                draw() {
-                    ctx.beginPath();
-                    for (let i = 0; i < this.sides; i++) {
-                        const angle = this.angle + (i * 2 * Math.PI) / this.sides;
-                        const x = this.x + Math.cos(angle) * this.radius;
-                        const y = this.y + Math.sin(angle) * this.radius;
-                        if (i === 0) {
-                            ctx.moveTo(x, y);
-                        } else {
-                            ctx.lineTo(x, y);
-                        }
-                    }
-                    ctx.closePath();
-                    ctx.strokeStyle = `hsla(${Math.random() * 360}, 100%, 50%, ${this.opacity})`; // Apply neon color with opacity
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                }
-
-                update() {
-                    this.angle += this.rotationSpeed;
-                    this.opacity -= 0.01;
-                    if (this.opacity <= 0) {
-                        this.reset();
-                    }
-                }
-            }
-
-            function initFiguras() {
-                for (let i = 0; i < 50; i++) {
-                    figuras.push(new Figura());
-                }
-            }
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                figuras.forEach(figura => {
-                    figura.update();
-                    figura.draw();
-                });
-                requestAnimationFrame(animate);
-            }
-
-            initFiguras();
-            animate();
-        });
-    </script>
 </body>
 </html>
