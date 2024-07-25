@@ -29,6 +29,7 @@
             z-index: 1;
             color: white;
             padding: 20px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
 
         h1 {
@@ -71,13 +72,16 @@
                     this.speed = Math.random() * 2 + 1;
                     this.width = Math.random() * 3 + 1;
                     this.opacity = 1;
-                    this.color = hsl(${Math.random() * 360}, 100%, 70%);
+                    this.color = hsl(${Math.random() * 360}, 100%, 50%);
                 }
 
                 draw() {
                     ctx.beginPath();
                     ctx.moveTo(this.x, this.y);
-                    ctx.lineTo(this.x + Math.cos(this.angle) * this.length, this.y + Math.sin(this.angle) * this.length);
+                    ctx.lineTo(
+                        this.x + Math.cos(this.angle) * this.length,
+                        this.y + Math.sin(this.angle) * this.length
+                    );
                     ctx.strokeStyle = rgba(${this.color}, ${this.opacity});
                     ctx.lineWidth = this.width;
                     ctx.stroke();
