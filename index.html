@@ -3,342 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THUNDER STREAMING TV</title>
+    <title>Encuesta Socioemocional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function(){
+        emailjs.init("YOUR_USER_ID"); // Reemplaza "YOUR_USER_ID" con tu ID de usuario EmailJS
+      })();
+    </script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-
         body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
-            background-color: black;
-            color: white;
-            font-family: 'Orbitron', sans-serif;
-            text-align: center;
-            position: relative;
         }
-
-        #particles-js {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        .content {
-            position: relative;
-            z-index: 1;
-            color: white;
-            padding: 20px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-        }
-
-        h1 {
-            font-size: 4em;
-            margin: 0;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.8), 0 0 30px rgba(255, 0, 0, 0.8), 0 0 40px rgba(255, 0, 0, 0.8);
-            color: #00ffff;
-            animation: neonText 1.5s infinite alternate;
-        }
-
-        h1 span {
-            color: #ff0000;
-            animation: neonText 1.5s infinite alternate;
-        }
-
-        @keyframes neonText {
-            from {
-                text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 80px #00ffff, 0 0 90px #00ffff, 0 0 100px #00ffff, 0 0 150px #00ffff;
-            }
-            to {
-                text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 50px #00ffff, 0 0 100px #00ffff, 0 0 150px #00ffff, 0 0 200px #00ffff, 0 0 250px #00ffff;
-            }
-        }
-
-        p {
-            font-size: 1.5em;
-            margin-top: 10px;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.8);
-        }
-
-        .buttons {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            background-color: #444;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8), 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff;
-            display: flex;
-            align-items: center;
-            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
-        }
-
-        .button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8), 0 0 10px #00ffff, 0 0 20px #00ffff;
-            background-color: #008CBA;
-        }
-
-        .button img {
-            margin-right: 10px;
-            width: 24px;
-            height: 24px;
-        }
-
-        .gif-container {
-            margin: 20px auto;
-            max-width: 80%;
-        }
-
-        .gif-container img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff;
-        }
-
-        .prices {
-            margin: 20px auto;
+        .container {
             width: 80%;
-            background-color: rgba(255, 255, 255, 0.1);
+            margin: 20px auto;
+            background: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-
-        .prices table {
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        .options input[type="radio"] {
+            margin-right: 5px;
+        }
+        button {
+            display: block;
             width: 100%;
-            border-collapse: collapse;
-        }
-
-        .prices th, .prices td {
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .prices th {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .prices td {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .paypal-button {
-            display: inline-block;
-            margin-left: 10px;
-            width: 100px;
-        }
-
-        .paypal-button img {
-            width: 100%;
-            height: auto;
-        }
-
-        .demo-button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            background-color: #008CBA;
+            padding: 10px;
+            background-color: #007bff;
             color: white;
-            text-decoration: none;
+            border: none;
             border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8), 0 0 5px #00ffff, 0 0 10px #00ffff, 0 0 20px #00ffff;
-            transition: background-color 0.3s, box-shadow 0.3s;
-            text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
         }
-
-        .demo-button img {
-            margin-right: 10px;
-            width: 24px;
-            height: 24px;
+        button:hover {
+            background-color: #0056b3;
         }
-
-        .demo-button:hover {
-            background-color: #005f6b;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8), 0 0 10px #00ffff, 0 0 20px #00ffff;
+        #recommendations {
+            margin-top: 20px;
+        }
+        #resultsChart {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="particles-js"></div>
-    <div class="content">
-        <h1><span>THUNDER</span> STREAMING TV</h1>
-        <p>Descubre la mejor experiencia de entretenimiento en línea con Thunder Streaming TV. Disfruta de una amplia variedad de canales, series y películas en alta calidad desde la comodidad de tu hogar. ¡Únete a la revolución del streaming!</p>
-        <div class="gif-container">
-            <img src="https://i.postimg.cc/rz3xWZD7/19958b6d.gif" alt="THUNDER STREAMING TV">
-        </div>
-        <div class="buttons">
-            <a class="button" href="https://wa.me/+16616754876">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                Contacto WhatsApp
-            </a>
-            <a class="button" href="https://zonaduples.com/Thunder/THUNDER_3.8.apk">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Android_robot_head.svg" alt="APK">
-                Descargar APK
-            </a>
-            <a class="button" href="https://www.paypal.com/paypalme/@albsanchz">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal">
-                Pagar con PayPal
-            </a>
-        </div>
-        <div class="prices">
-            <h2>Precios</h2>
-            <table>
-                <tr>
-                    <th>Duración</th>
-                    <th>Precio</th>
-                    <th>Comprar</th>
-                </tr>
-                <tr>
-                    <td>1 mes</td>
-                    <td>$10</td>
-                    <td><a class="paypal-button" href="https://www.paypal.com/paypalme/@albsanchz?amount=10"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"></a></td>
-                </tr>
-                <tr>
-                    <td>3 meses</td>
-                    <td>$25</td>
-                    <td><a class="paypal-button" href="https://www.paypal.com/paypalme/@albsanchz?amount=25"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"></a></td>
-                </tr>
-                <tr>
-                    <td>6 meses</td>
-                    <td>$45</td>
-                    <td><a class="paypal-button" href="https://www.paypal.com/paypalme/@albsanchz?amount=45"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"></a></td>
-                </tr>
-                <tr>
-                    <td>1 año</td>
-                    <td>$80</td>
-                    <td><a class="paypal-button" href="https://www.paypal.com/paypalme/@albsanchz?amount=80"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" alt="PayPal"></a></td>
-                </tr>
-            </table>
-            <a class="demo-button" href="https://wa.me/+16616754876">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-                Solicitar Demostración
-            </a>
-        </div>
+    <div class="container">
+        <h1>Encuesta Socioemocional</h1>
+        <form id="surveyForm">
+            <div>
+                <label for="nie">NIE (Número de Identificación Estudiantil):</label>
+                <input type="text" id="nie" name="nie" required>
+            </div>
+            <div class="question">
+                <label for="q1">1. ¿Qué tan satisfecho te sientes con tu vida en general?</label>
+                <div class="options">
+                    <input type="radio" id="q1_1" name="q1" value="1"> Necesita mejorar
+                    <input type="radio" id="q1_2" name="q1" value="2"> Bueno
+                    <input type="radio" id="q1_3" name="q1" value="3"> Muy Bueno
+                    <input type="radio" id="q1_4" name="q1" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q2">2. ¿Te sientes en control de tu vida?</label>
+                <div class="options">
+                    <input type="radio" id="q2_1" name="q2" value="1"> Necesita mejorar
+                    <input type="radio" id="q2_2" name="q2" value="2"> Bueno
+                    <input type="radio" id="q2_3" name="q2" value="3"> Muy Bueno
+                    <input type="radio" id="q2_4" name="q2" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q3">3. ¿Qué tan frecuentemente te sientes estresado?</label>
+                <div class="options">
+                    <input type="radio" id="q3_1" name="q3" value="1"> Necesita mejorar
+                    <input type="radio" id="q3_2" name="q3" value="2"> Bueno
+                    <input type="radio" id="q3_3" name="q3" value="3"> Muy Bueno
+                    <input type="radio" id="q3_4" name="q3" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q4">4. ¿Te sientes apoyado por tus amigos y familiares?</label>
+                <div class="options">
+                    <input type="radio" id="q4_1" name="q4" value="1"> Necesita mejorar
+                    <input type="radio" id="q4_2" name="q4" value="2"> Bueno
+                    <input type="radio" id="q4_3" name="q4" value="3"> Muy Bueno
+                    <input type="radio" id="q4_4" name="q4" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q5">5. ¿Qué tan a menudo experimentas emociones positivas?</label>
+                <div class="options">
+                    <input type="radio" id="q5_1" name="q5" value="1"> Necesita mejorar
+                    <input type="radio" id="q5_2" name="q5" value="2"> Bueno
+                    <input type="radio" id="q5_3" name="q5" value="3"> Muy Bueno
+                    <input type="radio" id="q5_4" name="q5" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q6">6. ¿Qué tan frecuentemente te sientes en paz contigo mismo?</label>
+                <div class="options">
+                    <input type="radio" id="q6_1" name="q6" value="1"> Necesita mejorar
+                    <input type="radio" id="q6_2" name="q6" value="2"> Bueno
+                    <input type="radio" id="q6_3" name="q6" value="3"> Muy Bueno
+                    <input type="radio" id="q6_4" name="q6" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q7">7. ¿Qué tan bien manejas los conflictos emocionales?</label>
+                <div class="options">
+                    <input type="radio" id="q7_1" name="q7" value="1"> Necesita mejorar
+                    <input type="radio" id="q7_2" name="q7" value="2"> Bueno
+                    <input type="radio" id="q7_3" name="q7" value="3"> Muy Bueno
+                    <input type="radio" id="q7_4" name="q7" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q8">8. ¿Te sientes motivado para alcanzar tus metas?</label>
+                <div class="options">
+                    <input type="radio" id="q8_1" name="q8" value="1"> Necesita mejorar
+                    <input type="radio" id="q8_2" name="q8" value="2"> Bueno
+                    <input type="radio" id="q8_3" name="q8" value="3"> Muy Bueno
+                    <input type="radio" id="q8_4" name="q8" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q9">9. ¿Qué tan seguido te sientes comprendido por los demás?</label>
+                <div class="options">
+                    <input type="radio" id="q9_1" name="q9" value="1"> Necesita mejorar
+                    <input type="radio" id="q9_2" name="q9" value="2"> Bueno
+                    <input type="radio" id="q9_3" name="q9" value="3"> Muy Bueno
+                    <input type="radio" id="q9_4" name="q9" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q10">10. ¿Te sientes emocionalmente estable?</label>
+                <div class="options">
+                    <input type="radio" id="q10_1" name="q10" value="1"> Necesita mejorar
+                    <input type="radio" id="q10_2" name="q10" value="2"> Bueno
+                    <input type="radio" id="q10_3" name="q10" value="3"> Muy Bueno
+                    <input type="radio" id="q10_4" name="q10" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q11">11. ¿Qué tan frecuentemente te sientes ansioso?</label>
+                <div class="options">
+                    <input type="radio" id="q11_1" name="q11" value="1"> Necesita mejorar
+                    <input type="radio" id="q11_2" name="q11" value="2"> Bueno
+                    <input type="radio" id="q11_3" name="q11" value="3"> Muy Bueno
+                    <input type="radio" id="q11_4" name="q11" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q12">12. ¿Te sientes capaz de expresar tus emociones?</label>
+                <div class="options">
+                    <input type="radio" id="q12_1" name="q12" value="1"> Necesita mejorar
+                    <input type="radio" id="q12_2" name="q12" value="2"> Bueno
+                    <input type="radio" id="q12_3" name="q12" value="3"> Muy Bueno
+                    <input type="radio" id="q12_4" name="q12" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q13">13. ¿Qué tan satisfecho estás con tus relaciones personales?</label>
+                <div class="options">
+                    <input type="radio" id="q13_1" name="q13" value="1"> Necesita mejorar
+                    <input type="radio" id="q13_2" name="q13" value="2"> Bueno
+                    <input type="radio" id="q13_3" name="q13" value="3"> Muy Bueno
+                    <input type="radio" id="q13_4" name="q13" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q14">14. ¿Te sientes capaz de manejar situaciones estresantes?</label>
+                <div class="options">
+                    <input type="radio" id="q14_1" name="q14" value="1"> Necesita mejorar
+                    <input type="radio" id="q14_2" name="q14" value="2"> Bueno
+                    <input type="radio" id="q14_3" name="q14" value="3"> Muy Bueno
+                    <input type="radio" id="q14_4" name="q14" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q15">15. ¿Qué tan seguido te sientes feliz?</label>
+                <div class="options">
+                    <input type="radio" id="q15_1" name="q15" value="1"> Necesita mejorar
+                    <input type="radio" id="q15_2" name="q15" value="2"> Bueno
+                    <input type="radio" id="q15_3" name="q15" value="3"> Muy Bueno
+                    <input type="radio" id="q15_4" name="q15" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q16">16. ¿Te sientes en paz con las decisiones que tomas?</label>
+                <div class="options">
+                    <input type="radio" id="q16_1" name="q16" value="1"> Necesita mejorar
+                    <input type="radio" id="q16_2" name="q16" value="2"> Bueno
+                    <input type="radio" id="q16_3" name="q16" value="3"> Muy Bueno
+                    <input type="radio" id="q16_4" name="q16" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q17">17. ¿Qué tan bien te adaptas a los cambios en tu vida?</label>
+                <div class="options">
+                    <input type="radio" id="q17_1" name="q17" value="1"> Necesita mejorar
+                    <input type="radio" id="q17_2" name="q17" value="2"> Bueno
+                    <input type="radio" id="q17_3" name="q17" value="3"> Muy Bueno
+                    <input type="radio" id="q17_4" name="q17" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q18">18. ¿Te sientes apoyado por tu entorno social?</label>
+                <div class="options">
+                    <input type="radio" id="q18_1" name="q18" value="1"> Necesita mejorar
+                    <input type="radio" id="q18_2" name="q18" value="2"> Bueno
+                    <input type="radio" id="q18_3" name="q18" value="3"> Muy Bueno
+                    <input type="radio" id="q18_4" name="q18" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q19">19. ¿Qué tan satisfecho estás con tu equilibrio trabajo/vida?</label>
+                <div class="options">
+                    <input type="radio" id="q19_1" name="q19" value="1"> Necesita mejorar
+                    <input type="radio" id="q19_2" name="q19" value="2"> Bueno
+                    <input type="radio" id="q19_3" name="q19" value="3"> Muy Bueno
+                    <input type="radio" id="q19_4" name="q19" value="4"> Excelente
+                </div>
+            </div>
+            <div class="question">
+                <label for="q20">20. ¿Te sientes capaz de lograr un bienestar emocional duradero?</label>
+                <div class="options">
+                    <input type="radio" id="q20_1" name="q20" value="1"> Necesita mejorar
+                    <input type="radio" id="q20_2" name="q20" value="2"> Bueno
+                    <input type="radio" id="q20_3" name="q20" value="3"> Muy Bueno
+                    <input type="radio" id="q20_4" name="q20" value="4"> Excelente
+                </div>
+            </div>
+            <button type="button" onclick="generateChart()">Ver Resultados</button>
+        </form>
+        <canvas id="resultsChart"></canvas>
+        <div id="recommendations"></div>
     </div>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 80,
-                    "density": {
-                        "enable": true,
-                        "value_area": 800
-                    }
-                },
-                "color": {
-                    "value": "#ffffff"
-                },
-                "shape": {
-                    "type": "circle",
-                    "stroke": {
-                        "width": 0,
-                        "color": "#000000"
-                    },
-                    "polygon": {
-                        "nb_sides": 5
-                    },
-                    "image": {
-                        "src": "img/github.svg",
-                        "width": 100,
-                        "height": 100
-                    }
-                },
-                "opacity": {
-                    "value": 0.5,
-                    "random": false,
-                    "anim": {
-                        "enable": false,
-                        "speed": 1,
-                        "opacity_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 5,
-                    "random": true,
-                    "anim": {
-                        "enable": false,
-                        "speed": 40,
-                        "size_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 150,
-                    "color": "#ffffff",
-                    "opacity": 0.4,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 6,
-                    "direction": "none",
-                    "random": false,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": false,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
+        function sendEmail(recommendations, email) {
+            const templateParams = {
+                email: email,
+                recommendations: recommendations.join('\n')
+            };
+
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+                .then(function(response) {
+                    console.log('Correo enviado exitosamente!', response.status, response.text);
+                }, function(error) {
+                    console.log('Fallo en el envío del correo.', error);
+                });
+        }
+
+        function generateChart() {
+            const formData = new FormData(document.getElementById('surveyForm'));
+            const results = [];
+            const recommendations = [];
+
+            for (let i = 1; i <= 20; i++) {
+                const value = parseInt(formData.get(`q${i}`));
+                results.push(value);
+
+                if (value === 1) {
+                    recommendations.push(`En la pregunta ${i}: ${generateRecommendation(i, 'mejorar')}`);
+                } else if (value === 2) {
+                    recommendations.push(`En la pregunta ${i}: ${generateRecommendation(i, 'bueno')}`);
                 }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "repulse"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    },
-                    "resize": true
+            }
+
+            // Obtener el email del NIE del usuario
+            const nie = formData.get('nie');
+            const email = `${nie}@cleses.edu.sv`;
+
+            // Enviar correo con las recomendaciones
+            if (recommendations.length > 0) {
+                sendEmail(recommendations, email);
+            }
+
+            // Generar gráfico de barras
+            const ctx = document.getElementById('resultsChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: results.map((_, index) => `Pregunta ${index + 1}`),
+                    datasets: [{
+                        label: 'Resultado',
+                        data: results,
+                        backgroundColor: results.map(value => {
+                            switch(value) {
+                                case 1: return 'rgba(255, 99, 132, 0.2)'; // Rojo para "Necesita mejorar"
+                                case 2: return 'rgba(255, 159, 64, 0.2)'; // Naranja para "Bueno"
+                                case 3: return 'rgba(75, 192, 192, 0.2)'; // Verde para "Muy Bueno"
+                                case 4: return 'rgba(54, 162, 235, 0.2)'; // Azul para "Excelente"
+                            }
+                        }),
+                        borderColor: results.map(value => {
+                            switch(value) {
+                                case 1: return 'rgba(255, 99, 132, 1)';
+                                case 2: return 'rgba(255, 159, 64, 1)';
+                                case 3: return 'rgba(75, 192, 192, 1)';
+                                case 4: return 'rgba(54, 162, 235, 1)';
+                            }
+                        }),
+                        borderWidth: 1
+                    }]
                 },
-                "modes": {
-                    "grab": {
-                        "distance": 400,
-                        "line_linked": {
-                            "opacity": 1
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 4,
+                            ticks: {
+                                stepSize: 1,
+                                callback: function(value) { 
+                                    const labels = ['Necesita mejorar', 'Bueno', 'Muy Bueno', 'Excelente'];
+                                    return labels[value - 1]; 
+                                }
+                            }
                         }
-                    },
-                    "bubble": {
-                        "distance": 400,
-                        "size": 40,
-                        "duration": 2,
-                        "opacity": 8,
-                        "speed": 3
-                    },
-                    "repulse": {
-                        "distance": 200,
-                        "duration": 0.4
-                    },
-                    "push": {
-                        "particles_nb": 4
-                    },
-                    "remove": {
-                        "particles_nb": 2
                     }
                 }
-            },
-            "retina_detect": true
-        });
+            });
+
+            // Mostrar recomendaciones en la página
+            const recommendationsContainer = document.getElementById('recommendations');
+            recommendationsContainer.innerHTML = ''; // Limpiar recomendaciones anteriores
+            if (recommendations.length > 0) {
+                recommendationsContainer.innerHTML = '<h3>Recomendaciones:</h3><ul>' + recommendations.map(rec => `<li>${rec}</li>`).join('') + '</ul>';
+            } else {
+                recommendationsContainer.innerHTML = '<h3>No hay recomendaciones específicas. ¡Sigue así!</h3>';
+            }
+        }
+
+        function generateRecommendation(questionNumber, category) {
+            const recommendations = {
+                1: {
+                    mejorar: 'Es importante identificar las áreas de tu vida que te causan insatisfacción. Considera trabajar con un terapeuta para explorar estas áreas y desarrollar estrategias que te ayuden a mejorar tu bienestar general.',
+                    bueno: 'Aunque te sientes generalmente satisfecho, siempre hay espacio para mejorar. Reflexiona sobre lo que podría elevar tu satisfacción a un nivel "Muy Bueno" o "Excelente" y establece metas claras para alcanzarlo.'
+                },
+                2: {
+                    mejorar: 'Sentirse fuera de control puede ser una fuente significativa de estrés. Te recomiendo trabajar en la gestión del tiempo y la planificación diaria. La terapia cognitiva puede ayudarte a cambiar tu perspectiva y ganar más control.',
+                    bueno: 'Mantén y fortalece las áreas en las que te sientes en control. Considera técnicas como la priorización y la planificación estratégica para aumentar tu sensación de control.'
+                },
+                3: {
+                    mejorar: 'El estrés frecuente puede ser debilitante. Te sugiero aprender y practicar técnicas de manejo del estrés, como la meditación, el ejercicio regular o la terapia cognitiva.',
+                    bueno: 'Aunque tu nivel de estrés es manejable, puedes beneficiarte al aprender nuevas técnicas de relajación o al mejorar tu capacidad para anticipar y evitar situaciones estresantes.'
+                },
+                4: {
+                    mejorar: 'El apoyo social es crucial para el bienestar emocional. Trabaja en fortalecer tus relaciones o busca nuevas conexiones a través de actividades sociales o grupos de apoyo.',
+                    bueno: 'Asegúrate de mantener y nutrir las relaciones que tienes. Puedes mejorar aún más tu red de apoyo al ser proactivo en comunicarte y compartir con amigos y familiares.'
+                },
+                5: {
+                    mejorar: 'Experimentar pocas emociones positivas puede ser un signo de depresión o anhedonia. Considera la terapia para explorar la causa subyacente y desarrollar estrategias para aumentar las experiencias positivas en tu vida.',
+                    bueno: 'Aumentar la frecuencia de emociones positivas puede ser posible al practicar la gratitud diaria, participar en actividades que disfrutas, y rodearte de personas que te hagan sentir bien.'
+                },
+                6: {
+                    mejorar: 'La falta de paz interior puede ser un indicador de conflicto interno o estrés no resuelto. Trabaja en desarrollar una mayor autoaceptación y explora técnicas de mindfulness o meditación.',
+                    bueno: 'Si bien te sientes en paz frecuentemente, podrías trabajar en mantener esta paz durante los momentos más difíciles. La práctica regular de mindfulness puede ayudarte a mantener la calma en situaciones estresantes.'
+                },
+                7: {
+                    mejorar: 'Manejar mal los conflictos emocionales puede llevar a relaciones tensas y estrés. Trabaja en desarrollar habilidades de comunicación y resolución de conflictos con la ayuda de un terapeuta.',
+                    bueno: 'Mejorar en la gestión de conflictos emocionales puede ser clave para relaciones más saludables. Considera aprender nuevas técnicas de comunicación asertiva y manejo emocional.'
+                },
+                8: {
+                    mejorar: 'La falta de motivación puede estar relacionada con depresión o falta de claridad en tus objetivos. Trabaja en definir metas claras y alcanzables, y considera buscar apoyo para superar cualquier barrera emocional.',
+                    bueno: 'Aunque tienes un nivel de motivación razonable, podrías beneficiarte al crear un plan de acción más detallado para alcanzar tus metas y establecer hitos para mantenerte enfocado.'
+                },
+                9: {
+                    mejorar: 'Sentirse incomprendido puede ser frustrante y llevar al aislamiento. Trabaja en mejorar tus habilidades de comunicación y busca entornos donde te sientas más escuchado y valorado.',
+                    bueno: 'Aumentar la frecuencia con la que te sientes comprendido puede requerir mejorar la forma en que expresas tus sentimientos y pensamientos a los demás.'
+                },
+                10: {
+                    mejorar: 'La inestabilidad emocional puede ser indicativa de trastornos de ánimo o problemas de manejo del estrés. Considera la terapia para desarrollar herramientas que te ayuden a estabilizar tus emociones.',
+                    bueno: 'Continuar fortaleciendo tu estabilidad emocional es importante. Trabaja en identificar y reducir factores estresantes que puedan desestabilizarte.'
+                },
+                11: {
+                    mejorar: 'La ansiedad frecuente puede requerir intervención psicológica. Aprende técnicas de manejo de la ansiedad, como la respiración profunda, la meditación y la reestructuración cognitiva.',
+                    bueno: 'Aunque tu ansiedad no es excesiva, puedes trabajar en reducirla aún más mediante el ejercicio regular, técnicas de relajación, y cambios en el estilo de vida.'
+                },
+                12: {
+                    mejorar: 'La incapacidad para expresar emociones puede llevar a la acumulación de tensión y estrés. Trabaja en desarrollar habilidades de comunicación emocional a través de la terapia o talleres de desarrollo personal.',
+                    bueno: 'Aunque te sientes capaz, mejorar tus habilidades de expresión emocional puede ayudarte a comunicarte más claramente y a mejorar tus relaciones.'
+                },
+                13: {
+                    mejorar: 'La insatisfacción en las relaciones personales puede ser un indicador de problemas de comunicación o expectativas no cumplidas. Trabaja en fortalecer tus relaciones actuales y considera terapia de pareja o familiar si es necesario.',
+                    bueno: 'Fortalecer y mejorar tus relaciones personales puede llevar a una mayor satisfacción. Trabaja en la comunicación abierta y en pasar tiempo de calidad con tus seres queridos.'
+                },
+                14: {
+                    mejorar: 'Si te cuesta manejar el estrés, es importante que aprendas técnicas de manejo del estrés y consideres la terapia para desarrollar un enfoque más resiliente.',
+                    bueno: 'Puedes mejorar tu capacidad de manejo del estrés al practicar técnicas de relajación regularmente y al mejorar tu capacidad de anticipar y planificar situaciones estresantes.'
+                },
+                15: {
+                    mejorar: 'La falta de felicidad puede ser un signo de depresión o insatisfacción en varias áreas de la vida. Trabaja en identificar y abordar los factores que contribuyen a este sentimiento y considera la terapia para apoyo adicional.',
+                    bueno: 'Aumentar tu felicidad puede requerir una mayor dedicación a actividades que disfrutas y una práctica diaria de la gratitud.'
+                },
+                16: {
+                    mejorar: 'La indecisión o arrepentimiento constante puede ser un signo de baja autoconfianza. Trabaja en mejorar tu proceso de toma de decisiones y considera la terapia para explorar las causas subyacentes.',
+                    bueno: 'Fortalecer la paz con tus decisiones puede requerir una mayor claridad en tus valores y prioridades, así como la práctica de la autoaceptación.'
+                },
+                17: {
+                    mejorar: 'La dificultad para adaptarse al cambio puede generar ansiedad y estrés. Trabaja en desarrollar una mentalidad más flexible y considera la terapia para manejar la resistencia al cambio.',
+                    bueno: 'Mejorar tu adaptación al cambio puede ser clave para tu crecimiento personal. Practica la aceptación y busca oportunidades de aprendizaje en cada cambio.'
+                },
+                18: {
+                    mejorar: 'Si sientes falta de apoyo social, es fundamental que busques construir o fortalecer tu red de apoyo. Participa en actividades sociales o grupos que te permitan conectar con personas que te apoyen.',
+                    bueno: 'Mantén y nutre las relaciones que ya tienes, y sigue buscando formas de expandir tu red social para sentirte aún más apoyado.'
+                },
+                19: {
+                    mejorar: 'Un mal equilibrio entre trabajo y vida puede llevar a agotamiento y estrés. Trabaja en establecer límites claros y en priorizar el autocuidado.',
+                    bueno: 'Mejorar este equilibrio puede requerir ajustes en tu rutina diaria y una mayor atención a tus necesidades personales fuera del trabajo.'
+                },
+                20: {
+                    mejorar: 'Si dudas de tu capacidad para mantener un bienestar emocional, es crucial que explores las barreras que te impiden lograrlo y consideres la terapia para desarrollar estrategias a largo plazo.',
+                    bueno: 'Mantén el enfoque en tu bienestar emocional y sigue desarrollando hábitos saludables que te ayuden a mantenerlo en el tiempo.'
+                }
+            };
+
+            return recommendations[questionNumber][category];
+        }
     </script>
 </body>
 </html>
