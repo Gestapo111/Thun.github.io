@@ -83,11 +83,14 @@ h1 {
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
 }
 
 .question-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
+    background-color: #e3f2fd;
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
 }
 
 .question-card label {
