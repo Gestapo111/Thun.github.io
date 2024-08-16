@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encuesta Socioemocional</title>
-    <link rel="stylesheet" href="style.css">
-    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script type="text/javascript">
-      (function(){
-        emailjs.init("YOUR_USER_ID"); // Reemplaza "YOUR_USER_ID" con tu ID de usuario EmailJS
-      })();
-    </script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div id="access" class="access-container">
+        <h2>Acceso a la Encuesta</h2>
+        <form id="accessForm">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="nie">NIE:</label>
+            <input type="text" id="nie" name="nie" required>
+            <button type="submit">Ingresar</button>
+        </form>
+        <div id="error" class="error">NIE no autorizado.</div>
+    </div>
+
     <div id="content" class="container" style="display: none;">
         <h1>Encuesta Socioemocional</h1>
         <form id="surveyForm">
-            <div>
-                <label for="nie">NIE (Número de Identificación Estudiantil):</label>
-                <input type="text" id="nie" name="nie" required>
-                <div id="error" class="error" style="display: none;">Por favor, ingrese un NIE válido.</div>
-            </div>
-            <!-- Aquí van las preguntas del formulario -->
             <div class="question">
                 <label for="q1">1. ¿Qué tan satisfecho te sientes con tu vida en general?</label>
                 <div class="options">
@@ -31,33 +31,21 @@
                     <input type="radio" id="q1_4" name="q1" value="4"> Excelente
                 </div>
             </div>
-            <!-- ... más preguntas aquí ... -->
-            <button type="button" onclick="validateAndSubmit()">Ver Resultados</button>
+            <!-- Agrega más preguntas aquí -->
+            <div class="question">
+                <label for="q20">20. ¿Te sientes capaz de lograr un bienestar emocional duradero?</label>
+                <div class="options">
+                    <input type="radio" id="q20_1" name="q20" value="1"> Necesita mejorar
+                    <input type="radio" id="q20_2" name="q20" value="2"> Bueno
+                    <input type="radio" id="q20_3" name="q20" value="3"> Muy Bueno
+                    <input type="radio" id="q20_4" name="q20" value="4"> Excelente
+                </div>
+            </div>
+            <button type="button" onclick="generateChart()">Ver Resultados</button>
         </form>
         <canvas id="resultsChart"></canvas>
-        <div id="recommendations"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
-    <script type="text/javascript">
-        // Lista de NIE válidos
-        const validNIEs = [
-            "4267837", "3850952", "3851018", "5032035", "19806181", 
-            "6297536", "2608724", "6262810", "4267838", "20162435", 
-            "3850923", "19806209", "4267828", "3850942"
-        ];
-
-        function validateAndSubmit() {
-            const nie = document.getElementById('nie').value;
-            const errorDiv = document.getElementById('error');
-
-            if (validNIEs.includes(nie)) {
-                document.getElementById('content').style.display = 'block';
-                errorDiv.style.display = 'none';
-            } else {
-                errorDiv.style.display = 'block';
-            }
-        }
-    </script>
 </body>
 </html>
