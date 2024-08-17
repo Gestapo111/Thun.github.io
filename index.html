@@ -1,214 +1,222 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuesta Socioemocional</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div id="access" class="access-container">
-        <h2>Acceso a la Encuesta</h2>
-        <form id="accessForm">
-            <label for="name">Nombre:</label>
-            <input type="text" id="name" name="name" required>
-            <label for="nie">NIE:</label>
-            <input type="text" id="nie" name="nie" required>
-            <button type="submit">Ingresar</button>
-        </form>
-        <div id="error" class="error">NIE no autorizado.</div>
-    </div>
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Evaluación: El Estudio de las Ciencias Naturales</title><style>body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .quiz-container {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px0;
+            border-radius: 10px;
+            box-shadow: 0010pxrgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 900px;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .optionsli {
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #results {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+        }
+        /* Modal styles */.modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0010pxrgba(0, 0, 0, 0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style></head><body><h1>Evaluación: El Estudio de las Ciencias Naturales</h1><div class="quiz-container"><div id="quiz"></div><input type="text" id="fullname" placeholder="Nombre completo" required><input type="text" id="nie" placeholder="NIE" required><button id="submit">Enviar respuestas</button></div><footer>&copy; Derechos Reservados Prof. Alberto Sanchez
+    </footer><!-- Modal --><div id="resultModal" class="modal"><div class="modal-content"><span class="close">&times;</span><h2>Resultados de la Evaluación</h2><p id="modalName"></p><p id="modalNIE"></p><p id="modalScore"></p><div id="modalAnswers"></div></div></div><script>const quizData = [
+            { question: "¿Qué es el método científico?", answers: [{ text: "Un enfoque sistemático para la investigación y la adquisición de conocimiento.", correct: true }, { text: "Una técnica para medir fenómenos naturales.", correct: false }, { text: "Un conjunto de leyes físicas.", correct: false }] },
+            { question: "¿Cuál es el primer paso del método científico?", answers: [{ text: "Formulación de hipótesis.", correct: false }, { text: "Observación.", correct: true }, { text: "Experimentación.", correct: false }] },
+            { question: "¿Qué es una hipótesis?", answers: [{ text: "Una suposición que se puede probar.", correct: true }, { text: "Una ley natural.", correct: false }, { text: "Un experimento fallido.", correct: false }] },
+            { question: "¿Qué es una teoría científica?", answers: [{ text: "Una explicación bien fundamentada de algún aspecto del mundo natural.", correct: true }, { text: "Una suposición sin pruebas.", correct: false }, { text: "Un conjunto de datos experimentales.", correct: false }] },
+            { question: "¿Qué es un experimento controlado?", answers: [{ text: "Un experimento en el que se manipula una variable para observar sus efectos.", correct: true }, { text: "Un experimento que siempre da resultados positivos.", correct: false }, { text: "Un experimento sin variables.", correct: false }] },
+            { question: "¿Qué es una variable independiente?", answers: [{ text: "La variable que se manipula en un experimento.", correct: true }, { text: "La variable que se mide en un experimento.", correct: false }, { text: "La variable que no cambia en un experimento.", correct: false }] },
+            { question: "¿Qué es una variable dependiente?", answers: [{ text: "La variable que se mide en un experimento.", correct: true }, { text: "La variable que se manipula en un experimento.", correct: false }, { text: "La variable que no cambia en un experimento.", correct: false }] },
+            { question: "¿Qué es una ley científica?", answers: [{ text: "Una descripción de un fenómeno natural que siempre ocurre bajo ciertas condiciones.", correct: true }, { text: "Una explicación de por qué ocurre un fenómeno natural.", correct: false }, { text: "Una suposición que necesita ser probada.", correct: false }] },
+            { question: "¿Qué es una observación cualitativa?", answers: [{ text: "Una observación que describe cualidades o características sin usar números.", correct: true }, { text: "Una observación que usa números y medidas.", correct: false }, { text: "Una observación que se realiza con un microscopio.", correct: false }] },
+            { question: "¿Qué es una observación cuantitativa?", answers: [{ text: "Una observación que usa números y medidas.", correct: true }, { text: "Una observación que describe cualidades o características.", correct: false }, { text: "Una observación que se realiza sin instrumentos.", correct: false }] },
+            { question: "¿Qué es un modelo científico?", answers: [{ text: "Una representación simplificada de un fenómeno o sistema real.", correct: true }, { text: "Un experimento fallido.", correct: false }, { text: "Un instrumento de medida.", correct: false }] },
+            { question: "¿Qué es una hipótesis nula?", answers: [{ text: "Una hipótesis que propone que no hay efecto o relación entre variables.", correct: true }, { text: "Una hipótesis que siempre es cierta.", correct: false }, { text: "Una hipótesis que no se puede probar.", correct: false }] },
+            { question: "¿Qué es un experimento de doble ciego?", answers: [{ text: "Un experimento en el que ni los participantes ni los investigadores saben quién recibe el tratamiento.", correct: true }, { text: "Un experimento en el que solo los investigadores saben quién recibe el tratamiento.", correct: false }, { text: "Un experimento sin grupo control.", correct: false }] },
+            { question: "¿Qué es la replicación en la investigación científica?", answers: [{ text: "La repetición de un experimento para verificar los resultados.", correct: true }, { text: "La creación de múltiples hipótesis.", correct: false }, { text: "La publicación de los resultados.", correct: false }] },
+            { question: "¿Qué es un grupo control en un experimento?", answers: [{ text: "Un grupo que no recibe el tratamiento y se usa como referencia.", correct: true }, { text: "Un grupo que recibe el tratamiento que se está probando.", correct: false }, { text: "Un grupo que se excluye del experimento.", correct: false }] },
+            { question: "¿Qué es un grupo experimental en un experimento?", answers: [{ text: "Un grupo que recibe el tratamiento que se está probando.", correct: true }, { text: "Un grupo que no recibe tratamiento.", correct: false }, { text: "Un grupo que tiene un tratamiento estándar.", correct: false }] },
+            { question: "¿Qué es un sesgo en la investigación científica?", answers: [{ text: "Una inclinación o preferencia que puede afectar los resultados del estudio.", correct: true }, { text: "Un tipo de error de medición.", correct: false }, { text: "Un resultado inesperado.", correct: false }] },
+            { question: "¿Qué es la revisión por pares?", answers: [{ text: "La evaluación de la investigación por otros expertos en el campo.", correct: true }, { text: "La publicación de resultados en un diario.", correct: false }, { text: "La repetición de un experimento por el mismo investigador.", correct: false }] },
+            { question: "¿Qué es un control positivo en un experimento?", answers: [{ text: "Un grupo en el que se espera un resultado positivo para comparar.", correct: true }, { text: "Un grupo sin tratamiento.", correct: false }, { text: "Un grupo en el que se espera un resultado negativo.", correct: false }] },
+            { question: "¿Qué es un control negativo en un experimento?", answers: [{ text: "Un grupo en el que no se espera ningún efecto para comparar.", correct: true }, { text: "Un grupo sin tratamiento.", correct: false }, { text: "Un grupo en el que se espera un resultado positivo.", correct: false }] },
+            { question: "¿Qué es la inferencia?", answers: [{ text: "Una conclusión basada en evidencia y razonamiento.", correct: true }, { text: "Una observación directa.", correct: false }, { text: "Una hipótesis sin pruebas.", correct: false }] },
+            { question: "¿Qué es un ensayo clínico?", answers: [{ text: "Una investigación experimental en humanos para evaluar tratamientos médicos.", correct: true }, { text: "Un estudio de observación en humanos.", correct: false }, { text: "Un experimento en animales.", correct: false }] },
+            { question: "¿Qué es una muestra representativa?", answers: [{ text: "Un subconjunto de una población que refleja las características de la población completa.", correct: true }, { text: "Un subconjunto de una población seleccionado al azar.", correct: false }, { text: "Un grupo control en un experimento.", correct: false }] },
+            { question: "¿Qué es una correlación?", answers: [{ text: "Una relación entre dos variables donde si una cambia, la otra también lo hace.", correct: true }, { text: "Una causa y efecto.", correct: false }, { text: "Una medición de exactitud.", correct: false }] },
+            { question: "¿Qué es un ensayo doble ciego?", answers: [{ text: "Un experimento en el que ni el sujeto ni el investigador saben quién recibe el tratamiento.", correct: true }, { text: "Un experimento en el que solo el investigador sabe quién recibe el tratamiento.", correct: false }, { text: "Un experimento sin grupo control.", correct: false }] },
+            { question: "¿Qué es una prueba t?", answers: [{ text: "Una prueba estadística para comparar las medias de dos grupos.", correct: true }, { text: "Una técnica de observación.", correct: false }, { text: "Un método para recolectar datos.", correct: false }] },
+            { question: "¿Qué es la falsabilidad?", answers: [{ text: "La capacidad de una hipótesis para ser probada como falsa.", correct: true }, { text: "La capacidad de una teoría para ser siempre verdadera.", correct: false }, { text: "La capacidad de un experimento para ser replicado.", correct: false }] },
+            // Preguntas 24 y 25 (agrega las preguntas aquí siguiendo el mismo formato)
+            { question: "¿Qué es el efecto placebo?", answers: [{ text: "Un efecto observado en un grupo control debido a la creencia de recibir tratamiento.", correct: true }, { text: "Un error en la medición de resultados.", correct: false }, { text: "Un efecto que se observa solo en un grupo experimental.", correct: false }] },
+            { question: "¿Qué es una variable confusa?", answers: [{ text: "Una variable que puede influir en los resultados del experimento y que no ha sido controlada.", correct: true }, { text: "Una variable que se controla directamente en el experimento.", correct: false }, { text: "Una variable que no tiene relación con el experimento.", correct: false }] }
+        ];
 
-    <div id="content" class="container" style="display: none;">
-        <h1>Encuesta Socioemocional</h1>
-        <form id="surveyForm">
-            <!-- Preguntas del 1 al 20 -->
-            <div class="question">
-                <label for="q1">1. ¿Qué tan satisfecho te sientes con tu vida en general?</label>
-                <div class="options">
-                    <input type="radio" id="q1_1" name="q1" value="1"> Necesita mejorar
-                    <input type="radio" id="q1_2" name="q1" value="2"> Bueno
-                    <input type="radio" id="q1_3" name="q1" value="3"> Muy Bueno
-                    <input type="radio" id="q1_4" name="q1" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q2">2. ¿Te sientes en control de tu vida?</label>
-                <div class="options">
-                    <input type="radio" id="q2_1" name="q2" value="1"> Necesita mejorar
-                    <input type="radio" id="q2_2" name="q2" value="2"> Bueno
-                    <input type="radio" id="q2_3" name="q2" value="3"> Muy Bueno
-                    <input type="radio" id="q2_4" name="q2" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q3">3. ¿Qué tan frecuentemente te sientes estresado?</label>
-                <div class="options">
-                    <input type="radio" id="q3_1" name="q3" value="1"> Necesita mejorar
-                    <input type="radio" id="q3_2" name="q3" value="2"> Bueno
-                    <input type="radio" id="q3_3" name="q3" value="3"> Muy Bueno
-                    <input type="radio" id="q3_4" name="q3" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q4">4. ¿Te sientes apoyado por tus amigos y familiares?</label>
-                <div class="options">
-                    <input type="radio" id="q4_1" name="q4" value="1"> Necesita mejorar
-                    <input type="radio" id="q4_2" name="q4" value="2"> Bueno
-                    <input type="radio" id="q4_3" name="q4" value="3"> Muy Bueno
-                    <input type="radio" id="q4_4" name="q4" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q5">5. ¿Qué tan a menudo experimentas emociones positivas?</label>
-                <div class="options">
-                    <input type="radio" id="q5_1" name="q5" value="1"> Necesita mejorar
-                    <input type="radio" id="q5_2" name="q5" value="2"> Bueno
-                    <input type="radio" id="q5_3" name="q5" value="3"> Muy Bueno
-                    <input type="radio" id="q5_4" name="q5" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q6">6. ¿Qué tan frecuentemente te sientes en paz contigo mismo?</label>
-                <div class="options">
-                    <input type="radio" id="q6_1" name="q6" value="1"> Necesita mejorar
-                    <input type="radio" id="q6_2" name="q6" value="2"> Bueno
-                    <input type="radio" id="q6_3" name="q6" value="3"> Muy Bueno
-                    <input type="radio" id="q6_4" name="q6" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q7">7. ¿Qué tan bien manejas los conflictos emocionales?</label>
-                <div class="options">
-                    <input type="radio" id="q7_1" name="q7" value="1"> Necesita mejorar
-                    <input type="radio" id="q7_2" name="q7" value="2"> Bueno
-                    <input type="radio" id="q7_3" name="q7" value="3"> Muy Bueno
-                    <input type="radio" id="q7_4" name="q7" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q8">8. ¿Te sientes motivado para alcanzar tus metas?</label>
-                <div class="options">
-                    <input type="radio" id="q8_1" name="q8" value="1"> Necesita mejorar
-                    <input type="radio" id="q8_2" name="q8" value="2"> Bueno
-                    <input type="radio" id="q8_3" name="q8" value="3"> Muy Bueno
-                    <input type="radio" id="q8_4" name="q8" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q9">9. ¿Qué tan seguido te sientes comprendido por los demás?</label>
-                <div class="options">
-                    <input type="radio" id="q9_1" name="q9" value="1"> Necesita mejorar
-                    <input type="radio" id="q9_2" name="q9" value="2"> Bueno
-                    <input type="radio" id="q9_3" name="q9" value="3"> Muy Bueno
-                    <input type="radio" id="q9_4" name="q9" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q10">10. ¿Te sientes emocionalmente estable?</label>
-                <div class="options">
-                    <input type="radio" id="q10_1" name="q10" value="1"> Necesita mejorar
-                    <input type="radio" id="q10_2" name="q10" value="2"> Bueno
-                    <input type="radio" id="q10_3" name="q10" value="3"> Muy Bueno
-                    <input type="radio" id="q10_4" name="q10" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q11">11. ¿Qué tan frecuentemente te sientes ansioso?</label>
-                <div class="options">
-                    <input type="radio" id="q11_1" name="q11" value="1"> Necesita mejorar
-                    <input type="radio" id="q11_2" name="q11" value="2"> Bueno
-                    <input type="radio" id="q11_3" name="q11" value="3"> Muy Bueno
-                    <input type="radio" id="q11_4" name="q11" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q12">12. ¿Te sientes capaz de expresar tus emociones?</label>
-                <div class="options">
-                    <input type="radio" id="q12_1" name="q12" value="1"> Necesita mejorar
-                    <input type="radio" id="q12_2" name="q12" value="2"> Bueno
-                    <input type="radio" id="q12_3" name="q12" value="3"> Muy Bueno
-                    <input type="radio" id="q12_4" name="q12" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q13">13. ¿Qué tan satisfecho estás con tus relaciones personales?</label>
-                <div class="options">
-                    <input type="radio" id="q13_1" name="q13" value="1"> Necesita mejorar
-                    <input type="radio" id="q13_2" name="q13" value="2"> Bueno
-                    <input type="radio" id="q13_3" name="q13" value="3"> Muy Bueno
-                    <input type="radio" id="q13_4" name="q13" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q14">14. ¿Te sientes capaz de manejar situaciones estresantes?</label>
-                <div class="options">
-                    <input type="radio" id="q14_1" name="q14" value="1"> Necesita mejorar
-                    <input type="radio" id="q14_2" name="q14" value="2"> Bueno
-                    <input type="radio" id="q14_3" name="q14" value="3"> Muy Bueno
-                    <input type="radio" id="q14_4" name="q14" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q15">15. ¿Qué tan seguido te sientes feliz?</label>
-                <div class="options">
-                    <input type="radio" id="q15_1" name="q15" value="1"> Necesita mejorar
-                    <input type="radio" id="q15_2" name="q15" value="2"> Bueno
-                    <input type="radio" id="q15_3" name="q15" value="3"> Muy Bueno
-                    <input type="radio" id="q15_4" name="q15" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q16">16. ¿Te sientes en paz con las decisiones que tomas?</label>
-                <div class="options">
-                    <input type="radio" id="q16_1" name="q16" value="1"> Necesita mejorar
-                    <input type="radio" id="q16_2" name="q16" value="2"> Bueno
-                    <input type="radio" id="q16_3" name="q16" value="3"> Muy Bueno
-                    <input type="radio" id="q16_4" name="q16" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q17">17. ¿Qué tan bien te adaptas a los cambios en tu vida?</label>
-                <div class="options">
-                    <input type="radio" id="q17_1" name="q17" value="1"> Necesita mejorar
-                    <input type="radio" id="q17_2" name="q17" value="2"> Bueno
-                    <input type="radio" id="q17_3" name="q17" value="3"> Muy Bueno
-                    <input type="radio" id="q17_4" name="q17" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q18">18. ¿Te sientes apoyado por tu entorno social?</label>
-                <div class="options">
-                    <input type="radio" id="q18_1" name="q18" value="1"> Necesita mejorar
-                    <input type="radio" id="q18_2" name="q18" value="2"> Bueno
-                    <input type="radio" id="q18_3" name="q18" value="3"> Muy Bueno
-                    <input type="radio" id="q18_4" name="q18" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q19">19. ¿Qué tan satisfecho estás con tu equilibrio trabajo/vida?</label>
-                <div class="options">
-                    <input type="radio" id="q19_1" name="q19" value="1"> Necesita mejorar
-                    <input type="radio" id="q19_2" name="q19" value="2"> Bueno
-                    <input type="radio" id="q19_3" name="q19" value="3"> Muy Bueno
-                    <input type="radio" id="q19_4" name="q19" value="4"> Excelente
-                </div>
-            </div>
-            <div class="question">
-                <label for="q20">20. ¿Te sientes capaz de lograr un bienestar emocional duradero?</label>
-                <div class="options">
-                    <input type="radio" id="q20_1" name="q20" value="1"> Necesita mejorar
-                    <input type="radio" id="q20_2" name="q20" value="2"> Bueno
-                    <input type="radio" id="q20_3" name="q20" value="3"> Muy Bueno
-                    <input type="radio" id="q20_4" name="q20" value="4"> Excelente
-                </div>
-             </div>
-            <button type="button" onclick="generateChart()">Ver Resultados</button>
-        </form>
-        <canvas id="resultsChart"></canvas>
-        <div id="recommendations"></div> <!-- Contenedor para las recomendaciones -->
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+        functionshuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        functionloadQuiz() {
+            const quizContainer = document.getElementById('quiz');
+            quizContainer.innerHTML = '';
+            shuffle(quizData).forEach((data, index) => {
+                const questionContainer = document.createElement('div');
+                questionContainer.className = 'question';
+
+                const questionTitle = document.createElement('h3');
+                questionTitle.innerText = `${index + 1}. ${data.question}`;
+                questionContainer.appendChild(questionTitle);
+
+                const optionsList = document.createElement('ul');
+                optionsList.className = 'options';
+
+                shuffle(data.answers).forEach(answer => {
+                    const option = document.createElement('li');
+                    const optionLabel = document.createElement('label');
+                    const optionInput = document.createElement('input');
+                    optionInput.type = 'radio';
+                    optionInput.name = `question${index}`;
+                    optionInput.value = answer.correct;
+                    optionLabel.appendChild(optionInput);
+                    optionLabel.appendChild(document.createTextNode(answer.text));
+                    option.appendChild(optionLabel);
+                    optionsList.appendChild(option);
+                });
+
+                questionContainer.appendChild(optionsList);
+                quizContainer.appendChild(questionContainer);
+            });
+        }
+
+        functionsubmitQuiz() {
+            const fullname = document.getElementById('fullname').value;
+            const nie = document.getElementById('nie').value;
+
+            if (!fullname || !nie) {
+                alert('Por favor, ingrese su nombre completo y NIE.');
+                return;
+            }
+
+            const answers = document.querySelectorAll('input[type="radio"]:checked');
+            let score = 0;
+
+            quizData.forEach((data, index) => {
+                const selected = answers[index] ? answers[index].value === 'true' : null;
+                if (selected === true) {
+                    score += 0.4; // Cada respuesta correcta vale 0.4 puntos
+                }
+            });
+
+            score = Math.round(score * 10) / 10; // Redondear a un decimallet feedback = quizData.map((data, index) => {
+                const selected = answers[index] ? answers[index].value === 'true' : null;
+                let result;
+                if (selected === null) {
+                    result = "No contestada";
+                } elseif (selected === true) {
+                    result = "Correcta";
+                } else {
+                    result = "Incorrecta";
+                }
+                return`<p>${index + 1}. ${result}</p>`;
+            }).join("");
+
+            document.getElementById('modalName').innerText = `Nombre: ${fullname}`;
+            document.getElementById('modalNIE').innerText = `NIE: ${nie}`;
+            document.getElementById('modalScore').innerText = `Puntaje: ${score} / 10`;
+            document.getElementById('modalAnswers').innerHTML = `<h3>Detalles de las respuestas</h3>${feedback}`;
+
+            const modal = document.getElementById('resultModal');
+            modal.style.display = 'block';
+        }
+
+        document.getElementById('submit').addEventListener('click', submitQuiz);
+
+        // Modal closeconst closeModal = document.querySelector('.close');
+        closeModal.onclick = function() {
+            const modal = document.getElementById('resultModal');
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('resultModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        loadQuiz();
+    </script></body></html>
